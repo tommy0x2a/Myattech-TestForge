@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      TestForge • Stop Manually Stress-Testing After Every Register Change
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap");
+
+      :root {
+        --accent: #00c4a7;
+      }
+
+      body {
+        font-family: "Inter", system_ui, sans-serif;
+      }
+
+      .font-display {
+        font-family: "Space Grotesk", "Inter", system_ui, sans-serif;
+        font-weight: 600;
+      }
+
+      .section-header {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+      }
+
+      .glass {
+        background: rgba(22, 26, 35, 0.75);
+        backdrop-filter: blur(12px);
+      }
+
+      .nav-scrolled {
+        background: rgba(15, 17, 23, 0.95);
+        backdrop-filter: blur(12px);
+      }
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.875rem;
+      }
+
+      .workflow-step {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .workflow-step:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+
+      .accent {
+        color: #00c4a7;
+      }
+
+      .dark-bg {
+        background-color: #0f1117;
+      }
+
+      .surface {
+        background-color: #161a23;
+      }
+
+      .subtle-border {
+        border-color: #252a38;
+      }
+    </style>
+  </head>
+  <body class="bg-[#0F1117] text-[#E8ECF1] antialiased">
+    <!-- Navigation -->
+    <nav
+      class="sticky top-0 z-50 border-b border-[#252A38] bg-[#0F1117]/95 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-xl mx-auto px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-x-3">
+            <div class="flex items-center gap-x-2">
+              <div
+                class="w-8 h-8 bg-[#00C4A7] rounded-xl flex items-center justify-center"
+              >
+                <span class="text-[#0F1117] font-bold text-xl tracking-tighter"
+                  >TF</span
+                >
+              </div>
+              <span class="font-display text-2xl font-semibold tracking-tighter"
+                >TestForge</span
+              >
+            </div>
+            <div
+              class="px-3 py-1 text-xs font-medium rounded-full bg-[#252A38] text-[#9AA4B2]"
+            >
+              v1 • Dual-Door
+            </div>
+          </div>
+
+          <div class="hidden md:flex items-center gap-x-8 text-sm">
+            <a href="#how-it-works" class="hover:text-white transition-colors"
+              >How it works</a
+            >
+            <a
+              href="#interactive-partner"
+              class="hover:text-white transition-colors"
+              >Interactive Partner</a
+            >
+            <a href="#dual-door" class="hover:text-white transition-colors"
+              >Dual-Door</a
+            >
+          </div>
+
+          <div class="flex items-center gap-x-3">
+            <a
+              href="#"
+              class="px-4 py-2 text-sm font-medium rounded-2xl border border-[#252A38] hover:bg-[#161A23] transition-colors"
+            >
+              GitHub
+            </a>
+            <a
+              href="#"
+              class="px-5 py-2.5 text-sm font-semibold rounded-2xl bg-[#00C4A7] text-[#0F1117] hover:bg-[#00b39a] transition-all active:scale-[0.985]"
+            >
+              Try free for 30 days
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="max-w-screen-xl mx-auto px-8 pt-16 pb-20">
+      <div class="max-w-3xl">
+        <!-- Pre-suasion badge -->
+        <div
+          class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-[#161A23] border border-[#252A38] mb-6"
+        >
+          <div class="w-2 h-2 bg-[#00C4A7] rounded-full animate-pulse"></div>
+          <span class="text-sm font-medium text-[#9AA4B2]"
+            >Built for firmware engineers who use AI coding assistants
+            daily</span
+          >
+        </div>
+
+        <h1
+          class="text-6xl md:text-7xl font-display tracking-tighter leading-none mb-6"
+        >
+          Stop manually stress-testing<br />
+          after every register change.<br />
+          <span class="text-[#00C4A7]">Let your AI do the iteration.</span>
+        </h1>
+
+        <p class="max-w-lg text-xl text-[#9AA4B2] mb-8">
+          Most test generators stop after one run. TestForge turns your AI
+          coding assistant into a persistent, embedded-aware testing partner
+          that iterates with you.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            href="#interactive-partner"
+            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl bg-[#00C4A7] text-[#0F1117] font-semibold text-lg hover:bg-[#00b39a] transition-all active:scale-[0.985]"
+          >
+            See how it works with AI agents
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a
+            href="#"
+            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl border border-[#252A38] font-semibold text-lg hover:bg-[#161A23] transition-colors"
+          >
+            <i class="fa-solid fa-download mr-2"></i>
+            Download desktop app
+          </a>
+        </div>
+
+        <div class="mt-6 flex items-center gap-x-4 text-sm text-[#9AA4B2]">
+          <div class="flex -space-x-1">
+            <div
+              class="w-6 h-6 rounded-full bg-[#252A38] border border-[#0F1117]"
+            ></div>
+            <div
+              class="w-6 h-6 rounded-full bg-[#252A38] border border-[#0F1117]"
+            ></div>
+            <div
+              class="w-6 h-6 rounded-full bg-[#252A38] border border-[#0F1117]"
+            ></div>
+          </div>
+          <span
+            >Trusted by firmware teams at
+            <span class="font-medium text-white"
+              >STMicro, Nordic, and 40+ startups</span
+            ></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Pain + Pre-Suasion Section -->
+    <div class="max-w-screen-xl mx-auto px-8 pb-16">
+      <div class="max-w-2xl">
+        <div
+          class="uppercase tracking-[3px] text-xs font-semibold text-[#00C4A7] mb-3"
+        >
+          THE REAL COST OF REGISTER CHANGES
+        </div>
+        <h2 class="section-header tracking-tighter mb-6">
+          Every time the HAL or register map changes,<br />your tests become
+          liabilities.
+        </h2>
+
+        <div class="space-y-4 text-[#9AA4B2]">
+          <p>
+            You rewrite tests by hand. You run them. Something still breaks in
+            the field.
+          </p>
+          <p>
+            You know boundary conditions matter, but under deadline pressure you
+            ship with “good enough” coverage.
+          </p>
+          <p class="font-medium text-white">
+            This isn’t a tooling problem anymore.<br />It’s a collaboration
+            problem between you and your AI coding assistant.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Testing Partner - THE CORE SECTION -->
+    <div
+      id="interactive-partner"
+      class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]"
+    >
+      <div class="max-w-3xl mb-12">
+        <div
+          class="inline-block px-4 py-1 rounded-3xl bg-[#161A23] text-[#00C4A7] text-sm font-semibold tracking-wider mb-4"
+        >
+          THE DUAL-DOOR VISION
+        </div>
+        <h2 class="section-header tracking-tighter">
+          Your AI coding assistant as an<br />Interactive Testing Partner
+        </h2>
+        <p class="mt-4 text-xl text-[#9AA4B2]">
+          When connected to TestForge via MCP, your AI can do something most
+          tools can’t:
+          <span class="text-white font-medium"
+            >iterate with you across multiple stress scenarios</span
+          >.
+        </p>
+      </div>
+
+      <!-- 8-Step Workflow -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+        <!-- Step cards -->
+        <div class="space-y-3">
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                1
+              </div>
+              <div>
+                <div class="font-semibold">AI calls TestForge</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  "Analyze this HAL function and generate boundary + stub
+                  tests."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                2
+              </div>
+              <div>
+                <div class="font-semibold">Receives structured report</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  Clear coverage gaps + ready-to-use test skeletons.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                3
+              </div>
+              <div>
+                <div class="font-semibold">AI reasons about the change</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  "Let’s stress this more aggressively after the register map
+                  update."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                4
+              </div>
+              <div>
+                <div class="font-semibold">Modifies constraints</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  AI updates stress variables and calls TestForge again.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                5
+              </div>
+              <div>
+                <div class="font-semibold">Runs multiple stress loops</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  TestForge executes varied boundary and post-change scenarios.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                6
+              </div>
+              <div>
+                <div class="font-semibold">Cross-run analysis</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  AI compares results across iterations to find the exact
+                  breaking conditions.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold"
+              >
+                7
+              </div>
+              <div>
+                <div class="font-semibold">Identifies root cause</div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  "Bugs appear when stress variable X exceeds Y after register
+                  change."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="workflow-step glass border border-[#252A38] rounded-3xl p-6 bg-[#161A23]"
+          >
+            <div class="flex items-start gap-x-4">
+              <div
+                class="step-number flex-shrink-0 rounded-2xl bg-white text-[#0F1117] font-bold"
+              >
+                8
+              </div>
+              <div>
+                <div class="font-semibold text-white">
+                  Reports back with clarity
+                </div>
+                <div class="text-[#9AA4B2] mt-1 text-sm">
+                  You receive the exact failing cases + the tests that caught
+                  them.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 p-6 rounded-3xl border border-[#252A38] bg-[#161A23]">
+        <div class="flex items-center gap-x-3 text-sm">
+          <i class="fa-solid fa-lightbulb text-[#00C4A7]"></i>
+          <span class="font-medium"
+            >This is the difference between hoping your tests are good enough
+            and <span class="text-white">knowing</span> where the edge cases
+            actually break.</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Before vs After -->
+    <div class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Before -->
+        <div class="surface border border-[#252A38] rounded-3xl p-8">
+          <div
+            class="uppercase text-xs tracking-widest font-semibold text-red-400 mb-3"
+          >
+            BEFORE
+          </div>
+          <h3 class="text-2xl font-semibold tracking-tight mb-6">
+            Manual iteration hell
+          </h3>
+          <ul class="space-y-3 text-[#9AA4B2]">
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-times text-red-400 mt-1"></i> Manually
+              rewrite tests after every HAL change
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-times text-red-400 mt-1"></i> Guess which
+              boundary conditions matter
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-times text-red-400 mt-1"></i> Run tests once
+              and hope for the best
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-times text-red-400 mt-1"></i> Lose hours
+              re-validating the same module
+            </li>
+          </ul>
+        </div>
+
+        <!-- After -->
+        <div class="surface border border-[#00C4A7]/30 rounded-3xl p-8">
+          <div
+            class="uppercase text-xs tracking-widest font-semibold text-[#00C4A7] mb-3"
+          >
+            AFTER
+          </div>
+          <h3 class="text-2xl font-semibold tracking-tight mb-6">
+            AI + TestForge collaboration
+          </h3>
+          <ul class="space-y-3 text-[#9AA4B2]">
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> Give
+              high-level direction once
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> AI runs
+              dozens of targeted stress scenarios
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> Get precise
+              failing conditions across runs
+            </li>
+            <li class="flex gap-x-3">
+              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> Reclaim
+              hours for architecture work
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual-Door Explanation -->
+    <div
+      id="dual-door"
+      class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]"
+    >
+      <div class="max-w-2xl">
+        <h2 class="section-header tracking-tighter mb-4">
+          Two doors. One powerful engine.
+        </h2>
+        <p class="text-xl text-[#9AA4B2]">
+          TestForge was built with a Dual-Door architecture so both you and your
+          AI coding assistant can get the most out of it.
+        </p>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-2 gap-6">
+        <!-- Human Door -->
+        <div class="glass border border-[#252A38] rounded-3xl p-8">
+          <div class="flex items-center gap-x-3 mb-4">
+            <i class="fa-solid fa-user text-2xl text-[#00C4A7]"></i>
+            <div>
+              <div class="font-semibold text-lg">Human Door</div>
+              <div class="text-sm text-[#9AA4B2]">For you</div>
+            </div>
+          </div>
+          <p class="text-[#9AA4B2]">
+            Beautiful, clear documentation and landing experience that teaches
+            you how to use TestForge directly — and how to get the most out of
+            your AI coding assistant.
+          </p>
+          <div class="mt-6 text-sm font-medium text-[#00C4A7]">
+            You are here →
+          </div>
+        </div>
+
+        <!-- Agent Door -->
+        <div class="glass border border-[#252A38] rounded-3xl p-8">
+          <div class="flex items-center gap-x-3 mb-4">
+            <i class="fa-solid fa-robot text-2xl text-[#00C4A7]"></i>
+            <div>
+              <div class="font-semibold text-lg">Agent Door</div>
+              <div class="text-sm text-[#9AA4B2]">
+                For your AI coding assistant
+              </div>
+            </div>
+          </div>
+          <p class="text-[#9AA4B2]">
+            Clean MCP interface + machine-readable Capability Manifest. Your AI
+            can discover, evaluate, and repeatedly call TestForge tools directly
+            inside your workflow.
+          </p>
+          <a
+            href="#"
+            class="inline-flex items-center gap-x-2 mt-6 text-sm font-semibold text-[#00C4A7] hover:underline"
+          >
+            Add TestForge to your AI coding assistant
+            <i class="fa-solid fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust & Final CTA -->
+    <div class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="flex justify-center gap-x-8 mb-8">
+          <div class="text-center">
+            <div class="text-3xl font-semibold tracking-tighter">30-day</div>
+            <div class="text-sm text-[#9AA4B2]">full-featured trial</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-semibold tracking-tighter">$149</div>
+            <div class="text-sm text-[#9AA4B2]">
+              one-time individual license
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="#"
+            class="inline-flex items-center justify-center gap-x-3 px-10 h-14 rounded-3xl bg-[#00C4A7] text-[#0F1117] font-semibold text-lg hover:bg-[#00b39a] transition-all"
+          >
+            Start 30-day free trial
+          </a>
+          <a
+            href="#"
+            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl border border-[#252A38] font-semibold text-lg hover:bg-[#161A23]"
+          >
+            Connect your AI coding assistant
+          </a>
+        </div>
+
+        <div class="mt-8 text-xs text-[#9AA4B2]">
+          Air-gap compatible • Local validation only • No telemetry • Built by
+          firmware engineers
+        </div>
+      </div>
+    </div>
+
+    <footer class="border-t border-[#252A38] py-8">
+      <div
+        class="max-w-screen-xl mx-auto px-8 text-xs text-[#9AA4B2] flex flex-col md:flex-row items-center justify-between gap-y-2"
+      >
+        <div>
+          © Myattech 2026. Built for embedded engineers who value clarity and
+          control.
+        </div>
+        <div class="flex gap-x-5">
+          <a href="#" class="hover:text-white">GitHub</a>
+          <a href="#" class="hover:text-white">Docs</a>
+          <a href="#" class="hover:text-white">MCP Manifest</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple tailwind script for any dynamic behavior if needed
+      console.log(
+        "%c[Dual-Door Landing] Pre-suasion + Dual-Door HTML loaded successfully.",
+        "color:#00C4A7",
+      );
+
+      // Optional: subtle scroll behavior for nav
+      window.addEventListener("scroll", () => {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 20) {
+          nav.classList.add("nav-scrolled");
+        } else {
+          nav.classList.remove("nav-scrolled");
+        }
+      });
+    </script>
+  </body>
+</html>
