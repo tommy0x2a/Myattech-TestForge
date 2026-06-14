@@ -85,7 +85,7 @@
       }
 
       .hero {
-        padding: 96px 0 72px;
+        padding: 96px 0 64px;
         text-align: center;
       }
       .hero h1 {
@@ -99,7 +99,7 @@
         font-size: 19px;
         color: var(--text-muted);
         max-width: 620px;
-        margin: 0 auto 32px;
+        margin: 0 auto 28px;
       }
 
       .btn {
@@ -296,17 +296,6 @@
         font-size: 13px;
         color: var(--text-muted);
       }
-
-      .stat {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--bg-elev);
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        border: 1px solid var(--border);
-      }
     </style>
   </head>
   <body>
@@ -334,36 +323,36 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <div class="stat" style="margin-bottom: 16px">
+        <div
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-elev);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+          "
+        >
           v0.1.0 — Windows &amp; Linux standalone binaries
         </div>
+
         <h1 class="font-display">Stop writing unit tests<br />by hand.</h1>
         <p class="sub">
           TestForge reads your embedded source and generates ready-to-compile
           unit tests — so your AI coding assistant can iterate while you focus
-          on the architecture.
+          on architecture.
         </p>
 
-        <div
-          style="
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-          "
-        >
-          <a href="#" class="btn btn-primary">Download Trial (Windows .exe)</a>
-          <a
-            href="https://github.com/tommy0x2a/TestForge"
-            target="_blank"
-            class="btn btn-secondary"
-            >View on GitHub</a
-          >
+        <div>
+          <a href="#" class="btn btn-primary">Download Trial</a>
         </div>
 
-        <p style="margin-top: 16px; font-size: 13px; color: var(--text-muted)">
-          Tested on Windows and Ubuntu with gcc. Support for additional
-          compilers available through customer-funded development.
+        <p style="margin-top: 14px; font-size: 13px; color: var(--text-muted)">
+          Available for <strong>Windows</strong> and <strong>Linux</strong>.
+          macOS coming soon.
         </p>
       </div>
     </section>
@@ -376,8 +365,8 @@
           test file.
         </h2>
         <p class="section-sub" style="max-width: 720px">
-          Unity and CppUTest are excellent. Writing the same pattern over and
-          over while the hardware team changes the HAL again is not.
+          Unity and CppUTest are great. Writing the same patterns over and over
+          while the hardware team changes the HAL again is not.
         </p>
 
         <div class="pain-grid">
@@ -405,6 +394,19 @@
             </p>
           </div>
         </div>
+
+        <div
+          style="
+            margin-top: 32px;
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-muted);
+          "
+        >
+          TestForge also generates the compile command for you (gcc by default).
+          You can enter a <strong>custom compile command</strong> to support
+          whatever compiler or build system your team uses.
+        </div>
       </div>
     </section>
 
@@ -415,13 +417,13 @@
           Your AI coding assistant as an Interactive Testing Partner
         </h2>
         <p class="section-sub">
-          When connected via MCP, your AI can do something most tools can’t:
-          iterate with you across multiple stress scenarios.
+          When connected via MCP, your AI can iterate with you across multiple
+          stress scenarios instead of generating tests once and stopping.
         </p>
 
         <div
           style="
-            margin-top: 40px;
+            margin-top: 36px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
@@ -433,12 +435,14 @@
               border: 1px solid var(--border);
               border-radius: 12px;
               padding: 24px;
+              font-size: 14.5px;
+              line-height: 1.7;
             "
           >
             <strong>1.</strong> AI calls TestForge → “Generate boundary tests
             for this HAL function after the register change.”<br /><br />
-            <strong>2.</strong> Receives a report with coverage gaps and
-            ready-to-use tests.<br /><br />
+            <strong>2.</strong> Receives a structured report with coverage
+            gaps.<br /><br />
             <strong>3.</strong> AI reasons and calls TestForge again with
             updated constraints.
           </div>
@@ -448,6 +452,8 @@
               border: 1px solid var(--border);
               border-radius: 12px;
               padding: 24px;
+              font-size: 14.5px;
+              line-height: 1.7;
             "
           >
             <strong>4.</strong> Runs multiple stress scenarios in a loop.<br /><br />
@@ -472,8 +478,8 @@
             <h4>C</h4>
             <div class="status">COMPLETE</div>
             <p>
-              Full function extraction, boundary value analysis, static/inline
-              detection, and hardware register awareness.
+              Full function extraction, boundary value analysis, and hardware
+              register awareness.
             </p>
           </div>
           <div class="lang-card">
@@ -481,26 +487,22 @@
             <h4>C++</h4>
             <div class="status">COMPLETE</div>
             <p>
-              Class methods, constructors, destructors, and reference handling
-              with proper test scaffolding.
+              Class methods, constructors, destructors, and reference handling.
             </p>
           </div>
           <div class="lang-card">
             <span class="icon">Py</span>
             <h4>Python</h4>
             <div class="status">COMPLETE</div>
-            <p>
-              Functions and methods with type hint awareness. Useful for test
-              scripts and supporting tooling.
-            </p>
+            <p>Functions and methods with type hint awareness.</p>
           </div>
           <div class="lang-card">
             <span class="icon">ASM</span>
             <h4>ARM Assembly</h4>
             <div class="status">COMPLETE</div>
             <p>
-              Function boundary detection via labels and register push/pop
-              sequence extraction.
+              Function boundary detection and register push/pop sequence
+              extraction.
             </p>
           </div>
         </div>
@@ -512,8 +514,8 @@
       <div class="container">
         <h2 class="section-title">Two doors. One powerful engine.</h2>
         <p class="section-sub">
-          TestForge is designed to work excellently for both engineers and their
-          AI coding assistants.
+          TestForge works excellently for both engineers and their AI coding
+          assistants.
         </p>
 
         <div
@@ -549,14 +551,14 @@
             <strong>Agent Door (MCP)</strong><br />
             <span style="color: var(--text-muted)"
               >Machine-readable interface that lets AI coding assistants
-              discover, evaluate, and use TestForge directly.</span
+              discover and use TestForge directly.</span
             >
           </div>
         </div>
       </div>
     </section>
 
-    <!-- For Teams & Companies (B2B Lead Magnet) -->
+    <!-- For Teams & Companies -->
     <section id="teams">
       <div class="container">
         <h2 class="section-title">
@@ -589,7 +591,7 @@
             </h3>
             <p style="color: var(--text-muted); font-size: 14.5px">
               Need clang, MSVC, IAR, Keil, or a proprietary toolchain? We can
-              extend TestForge for your specific environment.
+              extend TestForge for your environment.
             </p>
           </div>
           <div
@@ -604,8 +606,8 @@
               Custom Development &amp; Integration
             </h3>
             <p style="color: var(--text-muted); font-size: 14.5px">
-              We can add new backends, CI/CD integration, custom reporting, or
-              connect TestForge to your internal systems.
+              We can add new backends, CI/CD integration, or connect TestForge
+              to your internal systems.
             </p>
           </div>
           <div
@@ -725,29 +727,29 @@
             <div class="faq-q">What test frameworks does it support?</div>
             <div class="faq-a">
               Unity is the primary, fully supported target. CppUTest and Google
-              Test formatters are included and produce valid files.
+              Test formatters are also included.
             </div>
           </div>
           <div class="faq-item">
             <div class="faq-q">Does it work air-gapped?</div>
             <div class="faq-a">
               Yes. After the one-time license activation (or during the 30-day
-              trial), everything runs 100% locally with no server calls.
+              trial), everything runs 100% locally.
             </div>
           </div>
           <div class="faq-item">
             <div class="faq-q">What platforms and compilers are supported?</div>
             <div class="faq-a">
-              Tested on Windows and Ubuntu with gcc. Support for additional
-              compilers (clang, MSVC, IAR, etc.) is available through
-              customer-funded development.
+              Tested on Windows and Ubuntu with gcc. You can enter a custom
+              compile command for other compilers. Additional native compiler
+              support is available through customer-funded development.
             </div>
           </div>
           <div class="faq-item">
             <div class="faq-q">What is the refund policy?</div>
             <div class="faq-a">
               30 days. If the generated tests don’t save you meaningful time on
-              your actual firmware, email us and we’ll refund.
+              your actual firmware, we’ll refund.
             </div>
           </div>
         </div>
