@@ -3,544 +3,785 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      TestForge • Automated Unit Test Generator for Embedded Systems
-    </title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TestForge — Stop writing unit tests by hand.</title>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap"
     />
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap");
-
+      :root {
+        --bg: #0f1117;
+        --bg-elev: #161922;
+        --bg-card: #1c202b;
+        --text: #e6e8ef;
+        --text-muted: #8b92a3;
+        --accent: #00d4aa;
+        --accent-dark: #00b38f;
+        --border: #2a2f3d;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       body {
         font-family: "Inter", system_ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
       }
-
       .font-display {
         font-family: "Space Grotesk", "Inter", system_ui, sans-serif;
         font-weight: 600;
       }
-
-      .section-header {
-        font-size: 2.25rem;
-        line-height: 2.5rem;
-        font-weight: 700;
-        letter-spacing: -0.025em;
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
       }
 
-      .glass {
-        background: rgba(22, 26, 35, 0.75);
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(15, 17, 23, 0.95);
         backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: -0.02em;
+      }
+      .logo-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
       }
 
-      .workflow-step {
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        font-size: 14px;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 96px 0 72px;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 54px;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      .hero .sub {
+        font-size: 19px;
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto 32px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #0f1117;
+        font-weight: 700;
+      }
+      .btn-primary:hover {
+        background: var(--accent-dark);
+        transform: translateY(-1px);
+      }
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+      .btn-secondary:hover {
+        border-color: var(--text-muted);
+        background: var(--bg-elev);
+      }
+
+      section {
+        padding: 72px 0;
+      }
+      .section-title {
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        margin-bottom: 12px;
+      }
+      .section-sub {
+        color: var(--text-muted);
+        font-size: 17px;
+        max-width: 620px;
+      }
+
+      .pain-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-top: 40px;
+      }
+      .pain-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 26px;
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
+      }
+      .pain-card:hover {
+        transform: translateY(-2px);
+        border-color: #3a4050;
+      }
+      .pain-card h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: var(--accent);
+      }
+      .pain-card p {
+        font-size: 14.5px;
+        color: var(--text-muted);
+      }
+
+      .lang-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+        margin-top: 36px;
+      }
+      .lang-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        text-align: center;
+      }
+      .lang-card .icon {
+        font-size: 26px;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .lang-card h4 {
+        font-size: 17px;
+        margin-bottom: 6px;
+      }
+      .lang-card .status {
+        font-size: 12px;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .lang-card p {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 8px;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 24px;
+        margin-top: 36px;
+      }
+      .price-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 32px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .price-card.popular {
+        border-color: var(--accent);
+      }
+      .price-card .badge {
+        position: absolute;
+        top: -11px;
+        right: 24px;
+        background: var(--accent);
+        color: #0f1117;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 999px;
+      }
+      .price-card .price {
+        font-size: 42px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        margin: 8px 0;
+      }
+      .price-card .price span {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+      .price-card ul {
+        margin: 22px 0;
+        flex-grow: 1;
+      }
+      .price-card li {
+        list-style: none;
+        padding: 7px 0;
+        font-size: 14.5px;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .price-card li:before {
+        content: "✓";
+        color: var(--accent);
+        font-weight: bold;
+      }
+
+      .faq {
+        max-width: 780px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        border-bottom: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .faq-item:last-child {
+        border-bottom: none;
+      }
+      .faq-q {
+        font-weight: 600;
+        font-size: 15.5px;
+      }
+      .faq-a {
+        margin-top: 8px;
+        color: var(--text-muted);
+        font-size: 14.5px;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 42px 0 60px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .stat {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--bg-elev);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--border);
       }
     </style>
   </head>
-  <body class="bg-[#0F1117] text-[#E8ECF1] antialiased">
-    <!-- Navigation -->
-    <nav
-      class="sticky top-0 z-50 border-b border-[#252A38] bg-[#0F1117]/95 backdrop-blur-lg"
-    >
-      <div class="max-w-screen-xl mx-auto px-8">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center gap-x-3">
-            <div class="flex items-center gap-x-2">
-              <div
-                class="w-8 h-8 bg-[#00C4A7] rounded-xl flex items-center justify-center"
-              >
-                <span class="text-[#0F1117] font-bold text-xl tracking-tighter"
-                  >TF</span
-                >
-              </div>
-              <span class="font-display text-2xl font-semibold tracking-tighter"
-                >TestForge</span
-              >
-            </div>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <span class="logo-dot"></span>
+            <span>TestForge</span>
           </div>
-
-          <div class="hidden md:flex items-center gap-x-8 text-sm">
-            <a
-              href="#interactive-partner"
-              class="hover:text-white transition-colors"
-              >How it works</a
-            >
-            <a href="#dual-door" class="hover:text-white transition-colors"
-              >Dual-Door</a
-            >
-            <a href="#teams" class="hover:text-white transition-colors"
-              >For Teams</a
-            >
-          </div>
-
-          <div class="flex items-center gap-x-3">
-            <a
-              href="#"
-              class="px-4 py-2 text-sm font-medium rounded-2xl border border-[#252A38] hover:bg-[#161A23] transition-colors"
+          <div class="nav-links">
+            <a href="#problem">The Problem</a>
+            <a href="#languages">Languages</a>
+            <a href="#teams">For Teams</a>
+            <a href="#pricing">Pricing</a>
+            <a href="https://github.com/tommy0x2a/TestForge" target="_blank"
               >GitHub</a
             >
-            <a
-              href="#"
-              class="px-5 py-2.5 text-sm font-semibold rounded-3xl bg-[#00C4A7] text-[#0F1117] hover:bg-[#00b39a] transition-all"
-              >Try free for 30 days</a
-            >
           </div>
-        </div>
+        </nav>
       </div>
-    </nav>
+    </header>
 
     <!-- Hero -->
-    <div class="max-w-screen-xl mx-auto px-8 pt-16 pb-12">
-      <div class="max-w-3xl">
-        <div
-          class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-[#161A23] border border-[#252A38] mb-6"
-        >
-          <div class="w-2 h-2 bg-[#00C4A7] rounded-full animate-pulse"></div>
-          <span class="text-sm font-medium text-[#9AA4B2]"
-            >Built for firmware engineers who use AI coding assistants
-            daily</span
-          >
+    <section class="hero">
+      <div class="container">
+        <div class="stat" style="margin-bottom: 16px">
+          v0.1.0 — Windows &amp; Linux standalone binaries
         </div>
-
-        <h1
-          class="text-6xl md:text-7xl font-display tracking-tighter leading-none mb-6"
-        >
-          Stop manually stress-testing<br />
-          after every register change.<br />
-          <span class="text-[#00C4A7]">Let your AI do the iteration.</span>
-        </h1>
-
-        <p class="max-w-lg text-xl text-[#9AA4B2] mb-8">
-          TestForge turns your AI coding assistant into a persistent testing
-          partner that iterates, stresses, and analyzes results across multiple
-          scenarios — so you don’t have to.
+        <h1 class="font-display">Stop writing unit tests<br />by hand.</h1>
+        <p class="sub">
+          TestForge reads your embedded source and generates ready-to-compile
+          unit tests — so your AI coding assistant can iterate while you focus
+          on the architecture.
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-3">
-          <a
-            href="#interactive-partner"
-            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl bg-[#00C4A7] text-[#0F1117] font-semibold text-lg hover:bg-[#00b39a] transition-all"
-          >
-            See how it works with AI agents
-          </a>
-          <a
-            href="#"
-            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl border border-[#252A38] font-semibold text-lg hover:bg-[#161A23] transition-colors"
-          >
-            Download for Windows / Ubuntu
-          </a>
-        </div>
-
-        <!-- Updated Platform Note -->
         <div
-          class="mt-5 inline-flex items-center gap-x-2 text-sm text-[#9AA4B2]"
+          style="
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
         >
-          <i class="fa-solid fa-info-circle"></i>
-          <span>
-            Tested on <strong>Windows</strong> and <strong>Ubuntu</strong> with
-            <strong>gcc</strong>. Support for additional compilers is available
-            through customer-funded development.
-          </span>
+          <a href="#" class="btn btn-primary">Download Trial (Windows .exe)</a>
+          <a
+            href="https://github.com/tommy0x2a/TestForge"
+            target="_blank"
+            class="btn btn-secondary"
+            >View on GitHub</a
+          >
         </div>
-      </div>
-    </div>
 
-    <!-- Pain + Pre-Suasion -->
-    <div class="max-w-screen-xl mx-auto px-8 pb-16">
-      <div class="max-w-2xl">
-        <h2 class="section-header tracking-tighter mb-6">
-          Every time the HAL or register map changes, your tests become
-          liabilities.
+        <p style="margin-top: 16px; font-size: 13px; color: var(--text-muted)">
+          Tested on Windows and Ubuntu with gcc. Support for additional
+          compilers available through customer-funded development.
+        </p>
+      </div>
+    </section>
+
+    <!-- Problem -->
+    <section id="problem" style="background: var(--bg-elev)">
+      <div class="container">
+        <h2 class="section-title">
+          The problem is not the frameworks.<br />It’s the 47th hand-written
+          test file.
         </h2>
-        <div class="space-y-4 text-[#9AA4B2]">
-          <p>
-            You rewrite tests by hand. You run them. Something still breaks in
-            the field.
-          </p>
-          <p class="font-medium text-white">
-            This isn’t just a tooling problem — it’s a collaboration problem
-            between you and your AI coding assistant.
-          </p>
+        <p class="section-sub" style="max-width: 720px">
+          Unity and CppUTest are excellent. Writing the same pattern over and
+          over while the hardware team changes the HAL again is not.
+        </p>
+
+        <div class="pain-grid">
+          <div class="pain-card">
+            <h3>Manual test writing is slow and repetitive</h3>
+            <p>
+              Every new driver or module means another file full of nearly
+              identical setup, boundary cases, and stub declarations.
+            </p>
+          </div>
+          <div class="pain-card">
+            <h3>Hardware calls break your unit tests</h3>
+            <p>
+              Real firmware touches registers, SPI, I2C, and timers. You either
+              link the whole HAL or spend hours writing fakes that drift from
+              reality.
+            </p>
+          </div>
+          <div class="pain-card">
+            <h3>Deadlines kill test quality</h3>
+            <p>
+              Under pressure you write the happy path and ship. Boundary
+              conditions and error paths stay untested until they bite in the
+              field.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Interactive Testing Partner -->
-    <div
-      id="interactive-partner"
-      class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]"
-    >
-      <div class="max-w-3xl mb-12">
-        <div
-          class="inline-block px-4 py-1 rounded-3xl bg-[#161A23] text-[#00C4A7] text-sm font-semibold tracking-wider mb-4"
-        >
-          THE DUAL-DOOR VISION
-        </div>
-        <h2 class="section-header tracking-tighter">
+    <section>
+      <div class="container">
+        <h2 class="section-title">
           Your AI coding assistant as an Interactive Testing Partner
         </h2>
-      </div>
+        <p class="section-sub">
+          When connected via MCP, your AI can do something most tools can’t:
+          iterate with you across multiple stress scenarios.
+        </p>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
-        <div class="space-y-3">
+        <div
+          style="
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+          "
+        >
           <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 24px;
+            "
           >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                1
-              </div>
-              <div>
-                <span class="font-semibold">AI calls TestForge</span> — “Analyze
-                this HAL function and generate boundary + stub tests.”
-              </div>
-            </div>
+            <strong>1.</strong> AI calls TestForge → “Generate boundary tests
+            for this HAL function after the register change.”<br /><br />
+            <strong>2.</strong> Receives a report with coverage gaps and
+            ready-to-use tests.<br /><br />
+            <strong>3.</strong> AI reasons and calls TestForge again with
+            updated constraints.
           </div>
           <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 24px;
+            "
           >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                2
-              </div>
-              <div>
-                Receives a structured report with coverage gaps and ready-to-use
-                tests.
-              </div>
-            </div>
-          </div>
-          <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
-          >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                3
-              </div>
-              <div>
-                AI reasons about the change and modifies constraints for the
-                next round.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
-          >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                4
-              </div>
-              <div>Runs multiple stress scenarios in a loop.</div>
-            </div>
-          </div>
-          <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6"
-          >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-[#00C4A7] text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                5
-              </div>
-              <div>
-                Analyzes results across runs and identifies exactly which
-                conditions caused failures.
-              </div>
-            </div>
-          </div>
-          <div
-            class="workflow-step glass border border-[#252A38] rounded-3xl p-6 bg-[#161A23]"
-          >
-            <div class="flex items-start gap-x-4">
-              <div
-                class="step-number flex-shrink-0 w-7 h-7 rounded-2xl bg-white text-[#0F1117] font-bold flex items-center justify-center text-sm"
-              >
-                6
-              </div>
-              <div>
-                <span class="font-semibold text-white"
-                  >You get clear answers</span
-                >
-                instead of spending hours debugging flaky tests.
-              </div>
-            </div>
+            <strong>4.</strong> Runs multiple stress scenarios in a loop.<br /><br />
+            <strong>5.</strong> Analyzes results across runs and identifies
+            exact breaking conditions.<br /><br />
+            <strong>6.</strong> Reports back with the precise failing cases and
+            the tests that caught them.
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Before vs After -->
-    <div class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]">
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="surface border border-[#252A38] rounded-3xl p-8">
-          <div class="text-red-400 text-xs tracking-widest font-semibold mb-3">
-            BEFORE
-          </div>
-          <h3 class="text-2xl font-semibold tracking-tight mb-6">
-            Manual iteration hell
-          </h3>
-          <ul class="space-y-3 text-[#9AA4B2]">
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-times text-red-400 mt-1"></i> Manually
-              rewrite tests after every change
-            </li>
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-times text-red-400 mt-1"></i> Guess which
-              boundary conditions matter
-            </li>
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-times text-red-400 mt-1"></i> Run tests once
-              and hope for the best
-            </li>
-          </ul>
-        </div>
+    <!-- Languages -->
+    <section id="languages">
+      <div class="container">
+        <h2 class="section-title">Built for the languages you actually ship</h2>
+        <p class="section-sub">Parsers tuned for real embedded patterns.</p>
 
-        <div class="surface border border-[#00C4A7]/30 rounded-3xl p-8">
-          <div
-            class="text-[#00C4A7] text-xs tracking-widest font-semibold mb-3"
-          >
-            AFTER
+        <div class="lang-grid">
+          <div class="lang-card">
+            <span class="icon">C</span>
+            <h4>C</h4>
+            <div class="status">COMPLETE</div>
+            <p>
+              Full function extraction, boundary value analysis, static/inline
+              detection, and hardware register awareness.
+            </p>
           </div>
-          <h3 class="text-2xl font-semibold tracking-tight mb-6">
-            AI + TestForge collaboration
-          </h3>
-          <ul class="space-y-3 text-[#9AA4B2]">
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> Give
-              high-level direction once
-            </li>
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> AI runs
-              dozens of targeted stress scenarios
-            </li>
-            <li class="flex gap-x-3">
-              <i class="fa-solid fa-check text-[#00C4A7] mt-1"></i> Get precise
-              failing conditions and the tests that caught them
-            </li>
-          </ul>
+          <div class="lang-card">
+            <span class="icon">C++</span>
+            <h4>C++</h4>
+            <div class="status">COMPLETE</div>
+            <p>
+              Class methods, constructors, destructors, and reference handling
+              with proper test scaffolding.
+            </p>
+          </div>
+          <div class="lang-card">
+            <span class="icon">Py</span>
+            <h4>Python</h4>
+            <div class="status">COMPLETE</div>
+            <p>
+              Functions and methods with type hint awareness. Useful for test
+              scripts and supporting tooling.
+            </p>
+          </div>
+          <div class="lang-card">
+            <span class="icon">ASM</span>
+            <h4>ARM Assembly</h4>
+            <div class="status">COMPLETE</div>
+            <p>
+              Function boundary detection via labels and register push/pop
+              sequence extraction.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Dual-Door -->
-    <div
-      id="dual-door"
-      class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]"
-    >
-      <div class="max-w-2xl mb-10">
-        <h2 class="section-header tracking-tighter mb-4">
-          Two doors. One powerful engine.
-        </h2>
-        <p class="text-xl text-[#9AA4B2]">
+    <section style="background: var(--bg-elev)">
+      <div class="container">
+        <h2 class="section-title">Two doors. One powerful engine.</h2>
+        <p class="section-sub">
           TestForge is designed to work excellently for both engineers and their
           AI coding assistants.
         </p>
-      </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <div class="flex items-center gap-x-3 mb-4">
-            <i class="fa-solid fa-user text-2xl text-[#00C4A7]"></i>
-            <div class="font-semibold text-lg">Human Door</div>
-          </div>
-          <p class="text-[#9AA4B2]">
-            Clear, usable interface and documentation designed for firmware
-            engineers.
-          </p>
-        </div>
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <div class="flex items-center gap-x-3 mb-4">
-            <i class="fa-solid fa-robot text-2xl text-[#00C4A7]"></i>
-            <div class="font-semibold text-lg">Agent Door (MCP)</div>
-          </div>
-          <p class="text-[#9AA4B2]">
-            Machine-readable interface that lets AI coding assistants discover
-            and use TestForge directly inside your workflow.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- For Teams & Companies (Strong B2B Lead Magnet) -->
-    <div
-      id="teams"
-      class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]"
-    >
-      <div class="max-w-3xl">
         <div
-          class="inline-block px-4 py-1 rounded-3xl bg-[#161A23] text-[#00C4A7] text-sm font-semibold tracking-wider mb-4"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 36px;
+          "
         >
-          FOR ENGINEERING TEAMS &amp; ORGANIZATIONS
+          <div
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 26px;
+            "
+          >
+            <strong>Human Door</strong><br />
+            <span style="color: var(--text-muted)"
+              >Clear interface and documentation designed for firmware engineers
+              who want control and transparency.</span
+            >
+          </div>
+          <div
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 26px;
+            "
+          >
+            <strong>Agent Door (MCP)</strong><br />
+            <span style="color: var(--text-muted)"
+              >Machine-readable interface that lets AI coding assistants
+              discover, evaluate, and use TestForge directly.</span
+            >
+          </div>
         </div>
-        <h2 class="section-header tracking-tighter mb-4">
+      </div>
+    </section>
+
+    <!-- For Teams & Companies (B2B Lead Magnet) -->
+    <section id="teams">
+      <div class="container">
+        <h2 class="section-title">
           Most teams eventually need more than a generic tool.
         </h2>
-        <p class="text-xl text-[#9AA4B2] mb-8">
-          While TestForge works out of the box for many projects, engineering
-          teams working on complex hardware, specific toolchains, or internal
-          processes often need deeper integration.
+        <p class="section-sub">
+          While TestForge works well out of the box, many engineering
+          organizations need deeper integration with their specific hardware,
+          toolchains, or processes.
         </p>
-      </div>
 
-      <div class="grid md:grid-cols-3 gap-6 mt-8">
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <h3 class="font-semibold text-lg mb-3">
-            Custom Compiler &amp; Toolchain Support
-          </h3>
-          <p class="text-[#9AA4B2] text-sm">
-            Need support for clang, MSVC, IAR, Keil, or a proprietary toolchain?
-            We can extend TestForge specifically for your environment.
-          </p>
-        </div>
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <h3 class="font-semibold text-lg mb-3">
-            Custom Development &amp; Integration
-          </h3>
-          <p class="text-[#9AA4B2] text-sm">
-            We can add new backends, CI/CD integration, internal reporting
-            formats, or connect TestForge to your existing test infrastructure.
-          </p>
-        </div>
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <h3 class="font-semibold text-lg mb-3">
-            Priority Support &amp; Co-Development
-          </h3>
-          <p class="text-[#9AA4B2] text-sm">
-            Get dedicated support, faster turnaround on issues, and the
-            opportunity to influence the product roadmap through paid
-            engagement.
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-10 p-8 rounded-3xl border border-[#252A38] bg-[#161A23]">
         <div
-          class="flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 36px;
+          "
         >
-          <div>
-            <h3 class="font-semibold text-lg mb-1">
-              Let’s build what your team actually needs.
+          <div
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 26px;
+            "
+          >
+            <h3 style="margin-bottom: 10px">
+              Custom Compiler &amp; Toolchain Support
             </h3>
-            <p class="text-[#9AA4B2]">
-              Many of TestForge’s most powerful features were developed in
-              collaboration with engineering teams who funded the work.
+            <p style="color: var(--text-muted); font-size: 14.5px">
+              Need clang, MSVC, IAR, Keil, or a proprietary toolchain? We can
+              extend TestForge for your specific environment.
             </p>
           </div>
-          <div>
+          <div
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 26px;
+            "
+          >
+            <h3 style="margin-bottom: 10px">
+              Custom Development &amp; Integration
+            </h3>
+            <p style="color: var(--text-muted); font-size: 14.5px">
+              We can add new backends, CI/CD integration, custom reporting, or
+              connect TestForge to your internal systems.
+            </p>
+          </div>
+          <div
+            style="
+              background: var(--bg-card);
+              border: 1px solid var(--border);
+              border-radius: 12px;
+              padding: 26px;
+            "
+          >
+            <h3 style="margin-bottom: 10px">
+              Priority Support &amp; Co-Development
+            </h3>
+            <p style="color: var(--text-muted); font-size: 14.5px">
+              Get dedicated support and the opportunity to influence the roadmap
+              through paid collaboration.
+            </p>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
+          "
+        >
+          <p style="margin-bottom: 16px; font-size: 15px">
+            Many of TestForge’s most powerful capabilities were developed in
+            collaboration with teams who funded the work.
+          </p>
+          <a href="#" class="btn btn-primary"
+            >Talk to us about your requirements</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" style="background: var(--bg-elev)">
+      <div class="container">
+        <h2 class="section-title" style="text-align: center">
+          Simple one-time pricing.<br />No subscriptions.
+        </h2>
+        <p class="section-sub" style="text-align: center; margin: 0 auto 12px">
+          30-day unrestricted trial. Air-gap compatible.
+        </p>
+
+        <div class="pricing-grid">
+          <div class="price-card">
+            <div
+              style="
+                font-size: 13px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+            >
+              INDIVIDUAL
+            </div>
+            <div class="price">$149<span>/one-time</span></div>
+            <ul>
+              <li>1 seat, lifetime v1.x updates</li>
+              <li>Windows + Linux standalone binaries</li>
+              <li>Full C / C++ / Python / Assembly support</li>
+              <li>Local license verification</li>
+              <li>Priority GitHub issue responses</li>
+            </ul>
             <a
               href="#"
-              class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl bg-white text-[#0F1117] font-semibold hover:bg-[#E8ECF1] transition-all whitespace-nowrap"
+              class="btn btn-primary"
+              style="width: 100%; justify-content: center"
+              >Buy Individual License</a
             >
-              Talk to us about your requirements
-            </a>
+          </div>
+
+          <div class="price-card popular">
+            <div class="badge">BEST FOR TEAMS</div>
+            <div
+              style="
+                font-size: 13px;
+                color: var(--text-muted);
+                font-weight: 600;
+              "
+            >
+              TEAM
+            </div>
+            <div class="price">$499<span>/one-time</span></div>
+            <ul>
+              <li>5 seats</li>
+              <li>Everything in Individual</li>
+              <li>License keys for CI and lab machines</li>
+              <li>Direct support channel</li>
+              <li>Input into roadmap priorities</li>
+            </ul>
+            <a
+              href="#"
+              class="btn btn-primary"
+              style="width: 100%; justify-content: center"
+              >Buy Team License</a
+            >
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Help Shape TestForge (Lead Magnet) -->
-    <div class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]">
-      <div class="max-w-2xl">
-        <h2 class="section-header tracking-tighter mb-4">
-          Help shape TestForge for real engineering teams
+    <!-- FAQ -->
+    <section>
+      <div class="container">
+        <h2 class="section-title" style="text-align: center">
+          Frequently asked questions
         </h2>
-        <p class="text-xl text-[#9AA4B2]">
-          TestForge is being built in close collaboration with firmware teams.
-          Many of the features you see today came directly from customer input
-          and funded development work.
-        </p>
-      </div>
-
-      <div class="mt-10 grid md:grid-cols-2 gap-6">
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <h3 class="font-semibold mb-3">
-            Submit Feedback &amp; Feature Requests
-          </h3>
-          <p class="text-[#9AA4B2] text-sm mb-4">
-            Your real usage helps us prioritize what matters most to working
-            engineers.
-          </p>
-          <a href="#" class="text-[#00C4A7] font-medium hover:underline"
-            >Submit feedback →</a
-          >
-        </div>
-        <div class="glass border border-[#252A38] rounded-3xl p-8">
-          <h3 class="font-semibold mb-3">
-            Join the Customer Development Program
-          </h3>
-          <p class="text-[#9AA4B2] text-sm mb-4">
-            Work with us on roadmap decisions, get early access to new
-            capabilities, and explore co-development opportunities.
-          </p>
-          <a href="#" class="text-[#00C4A7] font-medium hover:underline"
-            >Learn more about the program →</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- Final CTA -->
-    <div class="max-w-screen-xl mx-auto px-8 py-16 border-t border-[#252A38]">
-      <div class="max-w-2xl mx-auto text-center">
-        <div class="flex justify-center gap-x-8 mb-8">
-          <div class="text-center">
-            <div class="text-3xl font-semibold tracking-tighter">30-day</div>
-            <div class="text-sm text-[#9AA4B2]">full-featured trial</div>
+        <div class="faq">
+          <div class="faq-item">
+            <div class="faq-q">What test frameworks does it support?</div>
+            <div class="faq-a">
+              Unity is the primary, fully supported target. CppUTest and Google
+              Test formatters are included and produce valid files.
+            </div>
           </div>
-          <div class="text-center">
-            <div class="text-3xl font-semibold tracking-tighter">$149</div>
-            <div class="text-sm text-[#9AA4B2]">
-              one-time individual license
+          <div class="faq-item">
+            <div class="faq-q">Does it work air-gapped?</div>
+            <div class="faq-a">
+              Yes. After the one-time license activation (or during the 30-day
+              trial), everything runs 100% locally with no server calls.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What platforms and compilers are supported?</div>
+            <div class="faq-a">
+              Tested on Windows and Ubuntu with gcc. Support for additional
+              compilers (clang, MSVC, IAR, etc.) is available through
+              customer-funded development.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q">What is the refund policy?</div>
+            <div class="faq-a">
+              30 days. If the generated tests don’t save you meaningful time on
+              your actual firmware, email us and we’ll refund.
             </div>
           </div>
         </div>
-
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href="#"
-            class="inline-flex items-center justify-center gap-x-3 px-10 h-14 rounded-3xl bg-[#00C4A7] text-[#0F1117] font-semibold text-lg hover:bg-[#00b39a] transition-all"
-          >
-            Start 30-day free trial
-          </a>
-          <a
-            href="#"
-            class="inline-flex items-center justify-center gap-x-3 px-8 h-14 rounded-3xl border border-[#252A38] font-semibold text-lg hover:bg-[#161A23]"
-          >
-            Talk to us about your needs
-          </a>
-        </div>
-
-        <div class="mt-8 text-xs text-[#9AA4B2]">
-          Air-gap compatible • Local validation only • Built by firmware
-          engineers
-        </div>
       </div>
-    </div>
+    </section>
 
-    <footer class="border-t border-[#252A38] py-8">
-      <div
-        class="max-w-screen-xl mx-auto px-8 text-xs text-[#9AA4B2] flex flex-col md:flex-row items-center justify-between gap-y-2"
-      >
-        <div>
-          © Myattech 2026. Built for firmware engineers who value clarity and
-          control.
-        </div>
-        <div class="flex gap-x-5">
-          <a href="#" class="hover:text-white">GitHub</a>
-          <a href="#" class="hover:text-white">Docs</a>
+    <footer>
+      <div class="container">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+          "
+        >
+          <div>
+            © 2026 Myattech, LLC. Built for firmware engineers who would rather
+            be writing firmware than tests.
+          </div>
+          <div>
+            <a href="https://myattech.com" style="color: var(--text-muted)"
+              >myattech.com</a
+            >
+            ·
+            <a
+              href="mailto:support@myattech.com"
+              style="color: var(--text-muted)"
+              >support@myattech.com</a
+            >
+          </div>
         </div>
       </div>
     </footer>
