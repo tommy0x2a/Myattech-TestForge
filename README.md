@@ -36,12 +36,25 @@ Download the 30-day fully featured trial:
 TestForge exposes its capabilities through the Model Context Protocol (MCP).  
 See the [Agent Door documentation](#for-ai-coding-agents) below.
 
-## For AI Coding Agents (MCP)
+## AI Assistant Integration (MCP)
 
-TestForge can be used directly by AI coding assistants.
+TestForge™ exposes its full engine as MCP tools — Claude, Cursor, 
+and Grok can discover functions, generate tests, and run constraint 
+plans directly inside your AI coding session.
 
-- [Capability Manifest](manifest.json) *(coming in v0.1)*
-- Example tool calls and integration guide will be added here after the first MCP release.
+**Setup:** See [docs/mcp_setup.md](docs/mcp_setup.md)  
+**Available on:** [Smithery](https://smithery.ai/server/testforge)
+
+---
+
+## AI Assistant Integration (MCP)
+
+TestForge™ exposes its full engine as MCP tools — Claude, Cursor, 
+and Grok can discover functions, generate tests, and run constraint 
+plans directly inside your AI coding session.
+
+**Setup:** See [docs/mcp_setup.md](docs/mcp_setup.md)  
+**Available on:** [Smithery](https://smithery.ai/server/testforge)
 
 ## Licensing
 
