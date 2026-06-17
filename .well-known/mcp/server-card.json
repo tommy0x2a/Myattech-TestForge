@@ -1,0 +1,5 @@
+{
+  "name": "Myattech-TestForge",
+  "description": "Automated unit test generator for embedded C, C++, and assembly",
+  "version": "1.0.0"
+}
