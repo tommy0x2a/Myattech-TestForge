@@ -1,5 +1,12 @@
 {
-  "name": "Myattech-TestForge",
-  "description": "Automated unit test generator for embedded C, C++, and assembly",
-  "version": "1.0.0"
+  "mcp": "0.1.0",
+  "name": "TestForge",
+  "description": "Private automated testing MCP server.",
+  "transport": {
+    "type": "stdio",
+    "install": "pip install \"testforge[mcp]\"",
+    "command": "python",
+    "args": ["-m", "testforge.mcp"]
+  }
 }
+
