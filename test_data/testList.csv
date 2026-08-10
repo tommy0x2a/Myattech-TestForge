@@ -1,0 +1,10 @@
+test_id,test_file_name,test_function_name,args,expected_return,arg_constraints,return_constraints,file_name_under_test,function_name_under_test,description,stress_mode,mock_enabled,mock_file_name,mock_function_name,mock_expected_args,mock_expected_returns,mock_arg_constraints,error_detection_details
+add_normal_001,,,"[2, 3]",5,"{""a"":""int"",""b"":""int""}","{""type"":""int""}",calculator.py,add,Normal positive integers,FALSE,TRUE,,,,,,exception error
+add_normal_002,,,"[0, 0]",0,"{""a"":""int"",""b"":""int""}","{""type"":""int""}",calculator.py,add,Normal with zero,FALSE,FALSE,,,,,,
+add_negative_003,,,"[-5, 3]",-2,"{""a"":""int"",""b"":""int""}","{""type"":""int""}",calculator.py,add,Negative numbers,FALSE,,,,,,,
+add_stress_huge_004,,,"[999999999999999999, 1]",null,"{""a"":""int"",""b"":""int""}","{""type"":""int""}",calculator.py,add,Stress - extremely large numbers,TRUE,,,,,,,
+add_stress_float_005,,,"[3.14, 2.86]",null,"{""a"":""int"",""b"":""int""}","{""type"":""int""}",calculator.py,add,Stress - float arguments,TRUE,,,,,,,
+divide_normal_006,,,"[10, 2]",5,"{""a"":""int"",""b"":""int"",""b"":""!=0""}","{""type"":""float""}",calculator.py,divide,Normal division,FALSE,,,,,,,
+divide_by_zero_007,,,"[10, 0]",null,"{""a"":""int"",""b"":""int""}","{""type"":""float""}",calculator.py,divide,Expected ZeroDivisionError,FALSE,,,,,,,ZeroDivisionError
+divide_stress_008,,,"[1, 999999999999999999]",null,"{""a"":""int"",""b"":""int""}","{""type"":""float""}",calculator.py,divide,Stress - huge divisor,TRUE,,,,,,,
+divide_out_of_bounds_return_009,,,"[10, 2]",1E+018,"{""a"":""int"",""b"":""int""}","{""type"":""int"",""range"":""huge""}",calculator.py,divide,"Force out-of-bounds return (mocked)""",FALSE,,,,,,,
