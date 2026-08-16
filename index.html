@@ -24,15 +24,18 @@
         margin: 0;
         padding: 0;
       }
-      body {
-        font-family: "Inter", system_ui, sans-serif;
+      html {
         background: var(--bg);
+      }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: transparent;
         color: var(--text);
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
       }
       .font-display {
-        font-family: "Space Grotesk", "Inter", system_ui, sans-serif;
+        font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
         font-weight: 600;
       }
       .container {
@@ -40,13 +43,78 @@
         margin: 0 auto;
         padding: 0 24px;
       }
+      .page {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* —— Fixed 3D background —— */
+      .bg-3d {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        background: var(--bg);
+      }
+      .bg-3d-fallback {
+        position: absolute;
+        inset: 0;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(
+            ellipse at 50% 0%,
+            rgba(0, 212, 170, 0.06),
+            transparent 55%
+          ),
+          linear-gradient(rgba(42, 47, 61, 0.28) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 47, 61, 0.28) 1px, transparent 1px);
+        background-size:
+          auto,
+          56px 56px,
+          56px 56px;
+        background-position:
+          center,
+          0 0,
+          0 0;
+      }
+      .bg-3d-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+      .bg-3d-video.is-ready {
+        opacity: 1;
+      }
+      .bg-3d-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 17, 23, 0.58);
+      }
+      .bg-3d-vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 38%,
+          rgba(15, 17, 23, 0.88) 100%
+        );
+      }
+      html.no-bg-video .bg-3d-video {
+        display: none;
+      }
 
       header {
         position: sticky;
         top: 0;
         z-index: 50;
-        background: rgba(15, 17, 23, 0.95);
+        background: rgba(15, 17, 23, 0.88);
         backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border);
       }
       nav {
@@ -54,6 +122,7 @@
         align-items: center;
         justify-content: space-between;
         height: 72px;
+        gap: 20px;
       }
       .logo {
         display: flex;
@@ -62,6 +131,7 @@
         font-weight: 600;
         font-size: 20px;
         letter-spacing: -0.02em;
+        flex-shrink: 0;
       }
       .logo-dot {
         width: 8px;
@@ -72,8 +142,10 @@
 
       .nav-links {
         display: flex;
-        gap: 32px;
+        gap: 28px;
         font-size: 14px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
       }
       .nav-links a {
         color: var(--text-muted);
@@ -137,6 +209,12 @@
       section {
         padding: 72px 0;
       }
+      .band {
+        background: rgba(15, 17, 23, 0.42);
+      }
+      .band-elev {
+        background: rgba(22, 25, 34, 0.62);
+      }
       .section-title {
         font-size: 30px;
         font-weight: 600;
@@ -149,6 +227,46 @@
         max-width: 620px;
       }
 
+      /* —— 3D glass cards —— */
+      .card-scene {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        height: 100%;
+      }
+      .pain-card,
+      .lang-card,
+      .price-card,
+      .door-card,
+      .svc-card {
+        height: 100%;
+        background: rgba(28, 32, 43, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        transform-style: preserve-3d;
+        transform: translateZ(0);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          0 10px 28px rgba(0, 0, 0, 0.22);
+        transition:
+          transform 0.45s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+        will-change: transform;
+      }
+      @supports (
+        (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+      ) {
+        .pain-card,
+        .lang-card,
+        .price-card,
+        .door-card,
+        .svc-card {
+          background: rgba(28, 32, 43, 0.52);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+        }
+      }
+
       .pain-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -156,17 +274,7 @@
         margin-top: 40px;
       }
       .pain-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
         padding: 26px;
-        transition:
-          transform 0.2s,
-          border-color 0.2s;
-      }
-      .pain-card:hover {
-        transform: translateY(-2px);
-        border-color: #3a4050;
       }
       .pain-card h3 {
         font-size: 16px;
@@ -185,9 +293,6 @@
         margin-top: 36px;
       }
       .lang-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
         padding: 24px;
         text-align: center;
       }
@@ -211,6 +316,99 @@
         margin-top: 8px;
       }
 
+      .door-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-top: 36px;
+      }
+      .door-card {
+        padding: 26px;
+      }
+      .door-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+      }
+      .door-card p {
+        color: var(--text-muted);
+        font-size: 14.5px;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 36px;
+      }
+      .team-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 26px;
+      }
+      .team-card h3 {
+        margin-bottom: 10px;
+      }
+      .team-card p {
+        color: var(--text-muted);
+        font-size: 14.5px;
+      }
+      .team-cta {
+        margin-top: 32px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 28px;
+        text-align: center;
+      }
+
+      .svc-lead {
+        color: var(--text-muted);
+        font-size: 17px;
+        max-width: 760px;
+        margin-top: 4px;
+      }
+      .svc-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-top: 36px;
+      }
+      .svc-card {
+        padding: 26px;
+      }
+      .svc-card h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: var(--accent);
+      }
+      .svc-card p {
+        font-size: 14.5px;
+        color: var(--text-muted);
+      }
+      .oracle-note {
+        margin-top: 24px;
+        padding: 22px 26px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(15, 17, 23, 0.55);
+        font-size: 14.5px;
+        color: var(--text-muted);
+      }
+      .oracle-note strong {
+        color: var(--text);
+      }
+      .svc-cta {
+        margin-top: 28px;
+        text-align: center;
+      }
+      .svc-cta p {
+        margin-bottom: 16px;
+        font-size: 15px;
+        color: var(--text-muted);
+      }
+
       .pricing-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -218,16 +416,14 @@
         margin-top: 36px;
       }
       .price-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
         padding: 32px;
         position: relative;
         display: flex;
         flex-direction: column;
+        border-radius: 14px;
       }
       .price-card.popular {
-        border-color: var(--accent);
+        border-color: rgba(0, 212, 170, 0.55);
       }
       .price-card .badge {
         position: absolute;
@@ -239,6 +435,11 @@
         font-weight: 700;
         padding: 2px 10px;
         border-radius: 999px;
+      }
+      .price-card .tier {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 600;
       }
       .price-card .price {
         font-size: 42px;
@@ -269,6 +470,21 @@
         font-weight: bold;
       }
 
+      .partner-grid {
+        margin-top: 36px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+      .partner-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        font-size: 14.5px;
+        line-height: 1.7;
+      }
+
       .faq {
         max-width: 780px;
         margin: 0 auto;
@@ -295,514 +511,778 @@
         padding: 42px 0 60px;
         font-size: 13px;
         color: var(--text-muted);
+        background: rgba(15, 17, 23, 0.55);
+      }
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .footer-row a {
+        color: var(--text-muted);
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg-elev);
+        padding: 4px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+      .hero-platforms {
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .compile-note {
+        margin-top: 32px;
+        text-align: center;
+        font-size: 15px;
+        color: var(--text-muted);
+      }
+
+      /* —— Scroll reveal (applied to .card-scene) —— */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+      }
+      .reveal.is-in {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        transition:
+          opacity 0.55s ease var(--stagger, 0ms),
+          transform 0.55s ease var(--stagger, 0ms);
+      }
+
+      @media (max-width: 860px) {
+        nav {
+          height: auto;
+          min-height: 72px;
+          padding: 14px 0;
+          flex-wrap: wrap;
+        }
+        .nav-links {
+          gap: 12px 16px;
+          font-size: 13px;
+          justify-content: flex-start;
+        }
+        .hero h1 {
+          font-size: 36px;
+        }
+        .hero {
+          padding: 64px 0 48px;
+        }
+        .section-title {
+          font-size: 26px;
+        }
+        .door-grid,
+        .svc-grid {
+          grid-template-columns: 1fr;
+        }
+        .pricing-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .reveal,
+        .reveal.is-in {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .pain-card,
+        .lang-card,
+        .price-card,
+        .door-card,
+        .svc-card {
+          transition: border-color 0.2s ease;
+        }
+        .btn-primary:hover {
+          transform: none;
+        }
       }
     </style>
   </head>
   <body>
-    <!-- Header -->
-    <header>
-      <div class="container">
-        <nav>
-          <div class="logo">
-            <span class="logo-dot"></span>
-            <span>TestForge</span>
-          </div>
-          <div class="nav-links">
-            <a href="#problem">The Problem</a>
-            <a href="#languages">Languages</a>
-            <a href="#mcp">AI / MCP</a>
-            <a href="#teams">For Teams</a>
-            <a href="#pricing">Pricing</a>
-            <a href="https://github.com/tommy0x2a/TestForge" target="_blank"
-              >GitHub</a
-            >
-          </div>
-        </nav>
-      </div>
-    </header>
+    <div class="bg-3d" aria-hidden="true">
+      <div class="bg-3d-fallback"></div>
+      <video
+        id="bg-video"
+        class="bg-3d-video"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      >
+        <source src="bg-3d-loop.mp4" type="video/mp4" />
+      </video>
+      <div class="bg-3d-overlay"></div>
+      <div class="bg-3d-vignette"></div>
+    </div>
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container">
-        <div
-          style="
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-elev);
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 16px;
-          "
-        >
-          v0.1.0 — Windows &amp; Linux standalone binaries
+    <div class="page">
+      <!-- Header -->
+      <header>
+        <div class="container">
+          <nav>
+            <div class="logo">
+              <span class="logo-dot"></span>
+              <span>TestForge</span>
+            </div>
+            <div class="nav-links">
+              <a href="#problem">The Problem</a>
+              <a href="#languages">Languages</a>
+              <a href="#teams">For Teams</a>
+              <a href="#services">Services</a>
+              <a href="#pricing">Pricing</a>
+              <a
+                href="https://github.com/tommy0x2a/Myattech-TestForge"
+                target="_blank"
+                >GitHub</a
+              >
+            </div>
+          </nav>
         </div>
+      </header>
 
-        <h1 class="font-display">Stop writing unit tests<br />by hand.</h1>
-        <p class="sub">
-          TestForge reads your embedded source and generates ready-to-compile
-          unit tests — so your AI coding assistant can iterate while you focus
-          on architecture.
-        </p>
-
-        <div>
-          <a href="#" class="btn btn-primary">Download Trial</a>
-        </div>
-
-        <p style="margin-top: 14px; font-size: 13px; color: var(--text-muted)">
-          Available for <strong>Windows</strong> and <strong>Linux</strong>.
-          macOS coming soon.
-        </p>
-      </div>
-    </section>
-
-    <!-- Problem -->
-    <section id="problem" style="background: var(--bg-elev)">
-      <div class="container">
-        <h2 class="section-title">
-          The problem is not the frameworks.<br />It’s the 47th hand-written
-          test file.
-        </h2>
-        <p class="section-sub" style="max-width: 720px">
-          Unity and CppUTest are great. Writing the same patterns over and over
-          while the hardware team changes the HAL again is not.
-        </p>
-
-        <div class="pain-grid">
-          <div class="pain-card">
-            <h3>Manual test writing is slow and repetitive</h3>
-            <p>
-              Every new driver or module means another file full of nearly
-              identical setup, boundary cases, and stub declarations.
-            </p>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-badge">
+            v1.0.0 — Windows &amp; Linux standalone binaries
           </div>
-          <div class="pain-card">
-            <h3>Hardware calls break your unit tests</h3>
-            <p>
-              Real firmware touches registers, SPI, I2C, and timers. You either
-              link the whole HAL or spend hours writing fakes that drift from
-              reality.
-            </p>
-          </div>
-          <div class="pain-card">
-            <h3>Deadlines kill test quality</h3>
-            <p>
-              Under pressure you write the happy path and ship. Boundary
-              conditions and error paths stay untested until they bite in the
-              field.
-            </p>
-          </div>
-        </div>
 
-        <div
-          style="
-            margin-top: 32px;
-            text-align: center;
-            font-size: 15px;
-            color: var(--text-muted);
-          "
-        >
-          TestForge also generates the compile command for you (gcc by default).
-          You can enter a <strong>custom compile command</strong> to support
-          whatever compiler or build system your team uses.
-        </div>
-      </div>
-    </section>
-
-    <!-- Interactive Testing Partner -->
-    <section>
-      <div class="container">
-        <h2 class="section-title">
-          Your AI coding assistant as an Interactive Testing Partner
-        </h2>
-        <p class="section-sub">
-          When connected via MCP, your AI can iterate with you across multiple
-          stress scenarios instead of generating tests once and stopping.
-        </p>
-
-        <div
-          style="
-            margin-top: 36px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-          "
-        >
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 24px;
-              font-size: 14.5px;
-              line-height: 1.7;
-            "
-          >
-            <strong>1.</strong> AI calls TestForge → “Generate boundary tests
-            for this HAL function after the register change.”<br /><br />
-            <strong>2.</strong> Receives a structured report with coverage
-            gaps.<br /><br />
-            <strong>3.</strong> AI reasons and calls TestForge again with
-            updated constraints.
-          </div>
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 24px;
-              font-size: 14.5px;
-              line-height: 1.7;
-            "
-          >
-            <strong>4.</strong> Runs multiple stress scenarios in a loop.<br /><br />
-            <strong>5.</strong> Analyzes results across runs and identifies
-            exact breaking conditions.<br /><br />
-            <strong>6.</strong> Reports back with the precise failing cases and
-            the tests that caught them.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Languages -->
-    <section id="languages">
-      <div class="container">
-        <h2 class="section-title">Built for the languages you actually ship</h2>
-        <p class="section-sub">Parsers tuned for real embedded patterns.</p>
-
-        <div class="lang-grid">
-          <div class="lang-card">
-            <span class="icon">C</span>
-            <h4>C</h4>
-            <div class="status">COMPLETE</div>
-            <p>
-              Full function extraction, boundary value analysis, and hardware
-              register awareness.
-            </p>
-          </div>
-          <div class="lang-card">
-            <span class="icon">C++</span>
-            <h4>C++</h4>
-            <div class="status">COMPLETE</div>
-            <p>
-              Class methods, constructors, destructors, and reference handling.
-            </p>
-          </div>
-          <div class="lang-card">
-            <span class="icon">Py</span>
-            <h4>Python</h4>
-            <div class="status">COMPLETE</div>
-            <p>Functions and methods with type hint awareness.</p>
-          </div>
-          <div class="lang-card">
-            <span class="icon">ASM</span>
-            <h4>ARM Assembly</h4>
-            <div class="status">COMPLETE</div>
-            <p>
-              Function boundary detection and register push/pop sequence
-              extraction.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AI Assistant Integration (MCP) -->
-    <section id="mcp">
-      <div class="container">
-        <h2 class="section-title">AI Assistant Integration (MCP)</h2>
-        <p class="section-sub">
-          TestForge™ exposes its full engine as MCP tools — Claude, Cursor, 
-          and Grok can discover functions, generate tests, and run constraint 
-          plans directly inside your AI coding session.
-        </p>
-        <p style="margin-top: 16px; font-size: 15px;">
-          <strong>Setup:</strong> See <a href="docs/mcp_setup.md">docs/mcp_setup.md</a><br />
-          <strong>Available on:</strong> <a href="https://smithery.ai/server/testforge" target="_blank">Smithery</a>
-        </p>
-      </div>
-    </section>
-
-    <!-- Dual-Door -->
-    <section style="background: var(--bg-elev)">
-      <div class="container">
-        <h2 class="section-title">Two doors. One powerful engine.</h2>
-        <p class="section-sub">
-          TestForge works excellently for both engineers and their AI coding
-          assistants.
-        </p>
-
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-top: 36px;
-          "
-        >
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 26px;
-            "
-          >
-            <strong>Human Door</strong><br />
-            <span style="color: var(--text-muted)"
-              >Clear interface and documentation designed for firmware engineers
-              who want control and transparency.</span
-            >
-          </div>
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 26px;
-            "
-          >
-            <strong>Agent Door (MCP)</strong><br />
-            <span style="color: var(--text-muted)"
-              >Machine-readable interface that lets AI coding assistants
-              discover and use TestForge directly.</span
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- For Teams & Companies -->
-    <section id="teams">
-      <div class="container">
-        <h2 class="section-title">
-          Most teams eventually need more than a generic tool.
-        </h2>
-        <p class="section-sub">
-          While TestForge works well out of the box, many engineering
-          organizations need deeper integration with their specific hardware,
-          toolchains, or processes.
-        </p>
-
-        <div
-          style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 36px;
-          "
-        >
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 26px;
-            "
-          >
-            <h3 style="margin-bottom: 10px">
-              Custom Compiler &amp; Toolchain Support
-            </h3>
-            <p style="color: var(--text-muted); font-size: 14.5px">
-              Need clang, MSVC, IAR, Keil, or a proprietary toolchain? We can
-              extend TestForge for your environment.
-            </p>
-          </div>
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 26px;
-            "
-          >
-            <h3 style="margin-bottom: 10px">
-              Custom Development &amp; Integration
-            </h3>
-            <p style="color: var(--text-muted); font-size: 14.5px">
-              We can add new backends, CI/CD integration, or connect TestForge
-              to your internal systems.
-            </p>
-          </div>
-          <div
-            style="
-              background: var(--bg-card);
-              border: 1px solid var(--border);
-              border-radius: 12px;
-              padding: 26px;
-            "
-          >
-            <h3 style="margin-bottom: 10px">
-              Priority Support &amp; Co-Development
-            </h3>
-            <p style="color: var(--text-muted); font-size: 14.5px">
-              Get dedicated support and the opportunity to influence the roadmap
-              through paid collaboration.
-            </p>
-          </div>
-        </div>
-
-        <div
-          style="
-            margin-top: 32px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 28px;
-            text-align: center;
-          "
-        >
-          <p style="margin-bottom: 16px; font-size: 15px">
-            Many of TestForge’s most powerful capabilities were developed in
-            collaboration with teams who funded the work.
+          <h1 class="font-display">Stop writing unit tests<br />by hand.</h1>
+          <p class="sub">
+            TestForge reads your embedded source and generates ready-to-compile
+            unit tests — so your AI coding assistant can iterate while you focus
+            on architecture.
           </p>
-          <a href="#" class="btn btn-primary"
-            >Talk to us about your requirements</a
+
+          <div>
+            <a href="#" class="btn btn-primary">Download Trial</a>
+          </div>
+
+          <p class="hero-platforms">
+            Available for <strong>Windows</strong> and <strong>Linux</strong>.
+            macOS coming soon.
+          </p>
+        </div>
+      </section>
+
+      <!-- Problem -->
+      <section id="problem" class="band-elev">
+        <div class="container">
+          <h2 class="section-title">
+            The problem is not the frameworks.<br />It’s the 47th hand-written
+            test file.
+          </h2>
+          <p class="section-sub" style="max-width: 720px">
+            Unity and CppUTest are great. Writing the same patterns over and
+            over while the hardware team changes the HAL again is not.
+          </p>
+
+          <div class="pain-grid">
+            <div class="card-scene reveal">
+              <div class="pain-card">
+                <h3>Manual test writing is slow and repetitive</h3>
+                <p>
+                  Every new driver or module means another file full of nearly
+                  identical setup, boundary cases, and stub declarations.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="pain-card">
+                <h3>Hardware calls break your unit tests</h3>
+                <p>
+                  Real firmware touches registers, SPI, I2C, and timers. You
+                  either link the whole HAL or spend hours writing fakes that
+                  drift from reality.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="pain-card">
+                <h3>Deadlines kill test quality</h3>
+                <p>
+                  Under pressure you write the happy path and ship. Boundary
+                  conditions and error paths stay untested until they bite in
+                  the field.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="compile-note">
+            TestForge also generates the compile command for you (gcc by
+            default). You can enter a <strong>custom compile command</strong> to
+            support whatever compiler or build system your team uses.
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Testing Partner -->
+      <section class="band">
+        <div class="container">
+          <h2 class="section-title">
+            Your AI coding assistant as an Interactive Testing Partner
+          </h2>
+          <p class="section-sub">
+            When connected via MCP, your AI can iterate with you across multiple
+            stress scenarios instead of generating tests once and stopping.
+          </p>
+
+          <div class="partner-grid">
+            <div class="partner-card">
+              <strong>1.</strong> AI calls TestForge → “Generate boundary tests
+              for this HAL function after the register change.”<br /><br />
+              <strong>2.</strong> Receives a structured report with coverage
+              gaps.<br /><br />
+              <strong>3.</strong> AI reasons and calls TestForge again with
+              updated constraints.
+            </div>
+            <div class="partner-card">
+              <strong>4.</strong> Runs multiple stress scenarios in a loop.<br /><br />
+              <strong>5.</strong> Analyzes results across runs and identifies
+              exact breaking conditions.<br /><br />
+              <strong>6.</strong> Reports back with the precise failing cases
+              and the tests that caught them.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Languages -->
+      <section id="languages" class="band">
+        <div class="container">
+          <h2 class="section-title">
+            Built for the languages you actually ship
+          </h2>
+          <p class="section-sub">Parsers tuned for real embedded patterns.</p>
+
+          <div class="lang-grid">
+            <div class="card-scene reveal">
+              <div class="lang-card">
+                <span class="icon">C</span>
+                <h4>C</h4>
+                <div class="status">COMPLETE</div>
+                <p>
+                  Full function extraction, boundary value analysis, and
+                  hardware register awareness.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="lang-card">
+                <span class="icon">C++</span>
+                <h4>C++</h4>
+                <div class="status">COMPLETE</div>
+                <p>
+                  Class methods, constructors, destructors, and reference
+                  handling.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="lang-card">
+                <span class="icon">Py</span>
+                <h4>Python</h4>
+                <div class="status">COMPLETE</div>
+                <p>Functions and methods with type hint awareness.</p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="lang-card">
+                <span class="icon">ASM</span>
+                <h4>ARM Assembly</h4>
+                <div class="status">COMPLETE</div>
+                <p>
+                  Function boundary detection and register push/pop sequence
+                  extraction.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Four-Door -->
+      <section class="band-elev">
+        <div class="container">
+          <h2 class="section-title">Four doors. One powerful engine.</h2>
+          <p class="section-sub">
+            TestForge works excellently for both engineers and their AI coding
+            assistants.
+          </p>
+
+          <div class="door-grid">
+            <div class="card-scene reveal">
+              <div class="door-card">
+                <strong>Human Door</strong>
+                <p>
+                  Clear interface and documentation designed for firmware
+                  engineers who want control and transparency.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="door-card">
+                <strong>Agent Door (MCP)</strong>
+                <p>
+                  Machine-readable interface that lets AI coding assistants
+                  discover and use TestForge directly.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="door-card">
+                <strong>CLI</strong>
+                <p>
+                  Callable directly from test scripts, CI pipelines, and
+                  existing build automation. No GUI required, no interpreter to
+                  install.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="door-card">
+                <strong>API</strong>
+                <p>
+                  Programmatic interface for embedding TestForge into custom
+                  tooling and internal workflows.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- For Teams & Companies -->
+      <section id="teams" class="band">
+        <div class="container">
+          <h2 class="section-title">
+            Most teams eventually need more than a generic tool.
+          </h2>
+          <p class="section-sub">
+            While TestForge works well out of the box, many engineering
+            organizations need deeper integration with their specific hardware,
+            toolchains, or processes.
+          </p>
+
+          <div class="team-grid">
+            <div class="team-card">
+              <h3>Custom Compiler &amp; Toolchain Support</h3>
+              <p>
+                Need clang, MSVC, IAR, Keil, or a proprietary toolchain? We can
+                extend TestForge for your environment.
+              </p>
+            </div>
+            <div class="team-card">
+              <h3>Custom Development &amp; Integration</h3>
+              <p>
+                We can add new backends, CI/CD integration, or connect TestForge
+                to your internal systems.
+              </p>
+            </div>
+            <div class="team-card">
+              <h3>Priority Support &amp; Co-Development</h3>
+              <p>
+                Get dedicated support and the opportunity to influence the
+                roadmap through paid collaboration.
+              </p>
+            </div>
+          </div>
+
+          <div class="team-cta">
+            <p style="margin-bottom: 16px; font-size: 15px">
+              Many of TestForge’s most powerful capabilities were developed in
+              collaboration with teams who funded the work.
+            </p>
+            <a href="#" class="btn btn-primary"
+              >Talk to us about your requirements</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom test harness service -->
+      <section id="services" class="band-elev">
+        <div class="container">
+          <h2 class="section-title">
+            Custom automated test flows, built for your bench.
+          </h2>
+          <p class="svc-lead">
+            Beyond the TestForge product, Myattech designs and builds complete
+            automated test flows: instrument and equipment control, robotic
+            handler integration, power sequencing, code download,
+            emulator-driven bare-metal test execution, logging, data collection,
+            and dashboards.
+          </p>
+
+          <div class="svc-grid">
+            <div class="card-scene reveal">
+              <div class="svc-card">
+                <h3>Failure analysis is the deliverable</h3>
+                <p>
+                  Most flows give you pass/fail and leave triage to a human.
+                  These flows cluster failures by root-cause signature, rank
+                  them by impact, and produce a reproducible failure package per
+                  cluster — so verification hands design a defect they can
+                  reproduce in one command.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="svc-card">
+                <h3>On-prem by default</h3>
+                <p>
+                  Local inference on hardware in your facility. No cloud calls,
+                  no source or trace data leaving the building. Air-gap
+                  compatible.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="svc-card">
+                <h3>Deep visibility</h3>
+                <p>
+                  Emulator-driven test code with sophisticated breakpoints and
+                  break conditions; register programming and memory loading over
+                  the emulator interface; and where the silicon or FPGA provides
+                  them, configuration and capture from on-chip logic analyzers
+                  on internal buses.
+                </p>
+              </div>
+            </div>
+            <div class="card-scene reveal">
+              <div class="svc-card">
+                <h3>Delivery includes hardware</h3>
+                <p>
+                  The inference appliance that runs the analysis loop is
+                  specified, built, and installed as part of the engagement.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="oracle-note">
+            <strong>Pass/fail is never a model decision.</strong>
+            Deterministic oracles — compiler, assertion, threshold — decide the
+            result. Models cluster and rank failures after the oracle has
+            spoken. That split is the point in a signoff environment.
+          </div>
+
+          <div class="svc-cta">
+            <p>
+              Engagements start with a paid pilot on one existing regression
+              suite or test cell.
+            </p>
+            <a href="#" class="btn btn-primary">Talk about your test flow</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing -->
+      <section id="pricing" class="band">
+        <div class="container">
+          <h2 class="section-title" style="text-align: center">
+            Simple annual licensing.<br />One year of use and updates.
+          </h2>
+          <p
+            class="section-sub"
+            style="text-align: center; margin: 0 auto 12px"
           >
-        </div>
-      </div>
-    </section>
+            30-day unrestricted trial. Air-gap compatible.
+          </p>
 
-    <!-- Pricing -->
-    <section id="pricing" style="background: var(--bg-elev)">
-      <div class="container">
-        <h2 class="section-title" style="text-align: center">
-          Simple one-time pricing.<br />No subscriptions.
-        </h2>
-        <p class="section-sub" style="text-align: center; margin: 0 auto 12px">
-          30-day unrestricted trial. Air-gap compatible.
-        </p>
+          <div class="pricing-grid">
+            <div class="card-scene reveal">
+              <div class="price-card">
+                <div class="tier">INDIVIDUAL</div>
+                <div class="price">$149<span>/year</span></div>
+                <ul>
+                  <li>1 seat, updates included for the licensed year</li>
+                  <li>Windows + Linux standalone binaries</li>
+                  <li>Full C / C++ / Python / Assembly support</li>
+                  <li>Local license verification</li>
+                  <li>Priority GitHub issue responses</li>
+                </ul>
+                <a
+                  href="#"
+                  class="btn btn-primary"
+                  style="width: 100%; justify-content: center"
+                  >Buy Individual License</a
+                >
+              </div>
+            </div>
 
-        <div class="pricing-grid">
-          <div class="price-card">
-            <div
-              style="
-                font-size: 13px;
-                color: var(--text-muted);
-                font-weight: 600;
-              "
-            >
-              INDIVIDUAL
-            </div>
-            <div class="price">$149<span>/one-time</span></div>
-            <ul>
-              <li>1 seat, lifetime v1.x updates</li>
-              <li>Windows + Linux standalone binaries</li>
-              <li>Full C / C++ / Python / Assembly support</li>
-              <li>Local license verification</li>
-              <li>Priority GitHub issue responses</li>
-            </ul>
-            <a
-              href="#"
-              class="btn btn-primary"
-              style="width: 100%; justify-content: center"
-              >Buy Individual License</a
-            >
-          </div>
-
-          <div class="price-card popular">
-            <div class="badge">BEST FOR TEAMS</div>
-            <div
-              style="
-                font-size: 13px;
-                color: var(--text-muted);
-                font-weight: 600;
-              "
-            >
-              TEAM
-            </div>
-            <div class="price">$499<span>/one-time</span></div>
-            <ul>
-              <li>5 seats</li>
-              <li>Everything in Individual</li>
-              <li>License keys for CI and lab machines</li>
-              <li>Direct support channel</li>
-              <li>Input into roadmap priorities</li>
-            </ul>
-            <a
-              href="#"
-              class="btn btn-primary"
-              style="width: 100%; justify-content: center"
-              >Buy Team License</a
-            >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section>
-      <div class="container">
-        <h2 class="section-title" style="text-align: center">
-          Frequently asked questions
-        </h2>
-        <div class="faq">
-          <div class="faq-item">
-            <div class="faq-q">What test frameworks does it support?</div>
-            <div class="faq-a">
-              Unity is the primary, fully supported target. CppUTest and Google
-              Test formatters are also included.
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">Does it work air-gapped?</div>
-            <div class="faq-a">
-              Yes. After the one-time license activation (or during the 30-day
-              trial), everything runs 100% locally.
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">What platforms and compilers are supported?</div>
-            <div class="faq-a">
-              Tested on Windows and Ubuntu with gcc. You can enter a custom
-              compile command for other compilers. Additional native compiler
-              support is available through customer-funded development.
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q">What is the refund policy?</div>
-            <div class="faq-a">
-              30 days. If the generated tests don’t save you meaningful time on
-              your actual firmware, we’ll refund.
+            <div class="card-scene reveal">
+              <div class="price-card popular">
+                <div class="badge">BEST FOR TEAMS</div>
+                <div class="tier">TEAM</div>
+                <div class="price">$499<span>/year</span></div>
+                <ul>
+                  <li>5 seats</li>
+                  <li>Everything in Individual</li>
+                  <li>License keys for CI and lab machines</li>
+                  <li>Direct support channel</li>
+                  <li>Input into roadmap priorities</li>
+                </ul>
+                <a
+                  href="#"
+                  class="btn btn-primary"
+                  style="width: 100%; justify-content: center"
+                  >Buy Team License</a
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer>
-      <div class="container">
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            font-size: 13px;
-            color: var(--text-muted);
-          "
-        >
-          <div>
-            © 2026 Myattech, LLC. Built for firmware engineers who would rather
-            be writing firmware than tests.
-          </div>
-          <div>
-            <a href="https://myattech.com" style="color: var(--text-muted)"
-              >myattech.com</a
-            >
-            ·
-            <a
-              href="mailto:support@myattech.com"
-              style="color: var(--text-muted)"
-              >support@myattech.com</a
-            >
+      <!-- FAQ -->
+      <section class="band-elev">
+        <div class="container">
+          <h2 class="section-title" style="text-align: center">
+            Frequently asked questions
+          </h2>
+          <div class="faq">
+            <div class="faq-item">
+              <div class="faq-q">What test frameworks does it support?</div>
+              <div class="faq-a">
+                Unity is the primary, fully supported target. CppUTest and
+                Google Test formatters are also included.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">Does it work air-gapped?</div>
+              <div class="faq-a">
+                Yes. After annual license activation (or during the 30-day
+                trial), everything runs 100% locally.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">
+                What platforms and compilers are supported?
+              </div>
+              <div class="faq-a">
+                Tested on Windows and Ubuntu with gcc. You can enter a custom
+                compile command for other compilers. Additional native compiler
+                support is available through customer-funded development.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">What is the refund policy?</div>
+              <div class="faq-a">
+                30 days. If the generated tests don’t save you meaningful time
+                on your actual firmware, we’ll refund.
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </section>
+
+      <footer>
+        <div class="container">
+          <div class="footer-row">
+            <div>
+              © 2026 Myattech, LLC. Built for firmware engineers who would
+              rather be writing firmware than tests.
+            </div>
+            <div>
+              <a href="https://myattech.com">myattech.com</a>
+              ·
+              <a href="mailto:support@myattech.com">support@myattech.com</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        // Scroll-scrub maps page scroll to video.currentTime so the camera
+        // appears to move through the 3D loop. Off by default — mid-range
+        // hardware often hitchs when seeking a large MP4 every frame.
+        // Flip to true to A/B.
+        var ENABLE_SCROLL_SCRUB = false;
+
+        var reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        var coarsePointer = window.matchMedia(
+          "(hover: none), (pointer: coarse)",
+        ).matches;
+
+        initBackground();
+        initReveals();
+        initTilt();
+
+        function initBackground() {
+          var video = document.getElementById("bg-video");
+          if (!video || reduceMotion) {
+            document.documentElement.classList.add("no-bg-video");
+            return;
+          }
+
+          var failed = false;
+          function fail() {
+            if (failed) return;
+            failed = true;
+            document.documentElement.classList.add("no-bg-video");
+            video.pause();
+          }
+
+          video.addEventListener("error", fail);
+          if (video.querySelector("source")) {
+            video.querySelector("source").addEventListener("error", fail);
+          }
+
+          video.addEventListener("loadeddata", function () {
+            if (!video.duration || isNaN(video.duration)) {
+              fail();
+              return;
+            }
+            video.classList.add("is-ready");
+            if (ENABLE_SCROLL_SCRUB) {
+              video.loop = false;
+              video.pause();
+              bindScrub(video);
+            } else {
+              var play = video.play();
+              if (play && typeof play.catch === "function") {
+                play.catch(fail);
+              }
+            }
+          });
+        }
+
+        function bindScrub(video) {
+          var ticking = false;
+          function update() {
+            ticking = false;
+            var max =
+              document.documentElement.scrollHeight - window.innerHeight;
+            var p = max > 0 ? window.scrollY / max : 0;
+            if (p < 0) p = 0;
+            if (p > 1) p = 1;
+            if (video.duration) {
+              video.currentTime = p * video.duration * 0.999;
+            }
+          }
+          window.addEventListener(
+            "scroll",
+            function () {
+              if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+              }
+            },
+            { passive: true },
+          );
+          update();
+        }
+
+        function initReveals() {
+          var scenes = document.querySelectorAll(".card-scene.reveal");
+          if (!scenes.length) return;
+
+          var grids = document.querySelectorAll(
+            ".pain-grid, .lang-grid, .door-grid, .svc-grid, .pricing-grid",
+          );
+          for (var g = 0; g < grids.length; g++) {
+            var kids = grids[g].children;
+            for (var i = 0; i < kids.length; i++) {
+              kids[i].style.setProperty("--stagger", i * 70 + "ms");
+            }
+          }
+
+          if (reduceMotion) {
+            for (var r = 0; r < scenes.length; r++) {
+              scenes[r].classList.add("is-in");
+            }
+            return;
+          }
+
+          if (!("IntersectionObserver" in window)) {
+            for (var f = 0; f < scenes.length; f++) {
+              scenes[f].classList.add("is-in");
+            }
+            return;
+          }
+
+          var io = new IntersectionObserver(
+            function (entries) {
+              for (var e = 0; e < entries.length; e++) {
+                if (entries[e].isIntersecting) {
+                  entries[e].target.classList.add("is-in");
+                  io.unobserve(entries[e].target);
+                }
+              }
+            },
+            { threshold: 0.14, rootMargin: "0px 0px -6% 0px" },
+          );
+
+          for (var s = 0; s < scenes.length; s++) {
+            io.observe(scenes[s]);
+          }
+        }
+
+        function initTilt() {
+          if (reduceMotion || coarsePointer) return;
+
+          var cards = document.querySelectorAll(
+            ".pain-card, .lang-card, .price-card, .door-card, .svc-card",
+          );
+          var maxTilt = 4;
+
+          for (var i = 0; i < cards.length; i++) {
+            bindCardTilt(cards[i], maxTilt);
+          }
+        }
+
+        function bindCardTilt(card, maxTilt) {
+          var raf = 0;
+          var nextX = 0;
+          var nextY = 0;
+
+          card.addEventListener("mousemove", function (e) {
+            var rect = card.getBoundingClientRect();
+            var px = (e.clientX - rect.left) / rect.width - 0.5;
+            var py = (e.clientY - rect.top) / rect.height - 0.5;
+            nextX = (-py * maxTilt * 2).toFixed(2);
+            nextY = (px * maxTilt * 2).toFixed(2);
+            if (raf) return;
+            raf = requestAnimationFrame(function () {
+              raf = 0;
+              card.style.transform =
+                "rotateX(" +
+                nextX +
+                "deg) rotateY(" +
+                nextY +
+                "deg) translateZ(0)";
+            });
+          });
+
+          card.addEventListener("mouseleave", function () {
+            if (raf) {
+              cancelAnimationFrame(raf);
+              raf = 0;
+            }
+            card.style.transform = "";
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
